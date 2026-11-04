@@ -1,0 +1,71 @@
+<!-- Botão de código com "Copiar" — cole este bloco onde quiser na sua página -->
+<div class="code-copy">
+  <span class="code-copy__text" id="codigo">CWDB-FHKT</span>
+  <button type="button" class="code-copy__btn" data-target="codigo">Copiar</button>
+</div>
+
+<style>
+  .code-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-width: 360px;
+    padding: 12px 12px 12px 20px;
+    background: #f2f2f2;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  .code-copy__text {
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #222;
+  }
+  .code-copy__btn {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 8px 14px;
+    background: #fff;
+    color: #222;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .code-copy__btn:hover { background: #f7f7f7; }
+  .code-copy__btn.copiado { border-color: #2e7d32; color: #2e7d32; }
+</style>
+
+<script>
+  document.querySelectorAll('.code-copy__btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var texto = document.getElementById(btn.dataset.target).textContent.trim();
+
+      function feito() {
+        btn.textContent = 'Copiado!';
+        btn.classList.add('copiado');
+        setTimeout(function () {
+          btn.textContent = 'Copiar';
+          btn.classList.remove('copiado');
+        }, 2000);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texto).then(feito);
+      } else {
+        // Alternativa para páginas sem HTTPS
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        feito();
+      }
+    });
+  });
+</script>
