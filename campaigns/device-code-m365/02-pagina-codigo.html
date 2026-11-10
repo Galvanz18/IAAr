@@ -89,27 +89,32 @@
       return (!u || u.indexOf('${') !== -1) ? '03-pagina-submissao.html' : u;
     }
 
-    // "Copiar código": copia e abre a submissão (PONTO 3) num popup. A chamada
-    // está dentro do clique (gesto do utilizador), evitando o bloqueio de popups.
-    document.getElementById('copy').addEventListener('click', function(){
-      var c = document.getElementById('code').textContent.trim();
-      if(navigator.clipboard){ navigator.clipboard.writeText(c).catch(function(){}); }
-      this.textContent = 'Código copiado ✓';
-
+    // Abre a submissão (PONTO 3) num popup. O nome 'devicelogin' faz reutilizar
+    // a mesma janela (não abre duas). Chamado dentro do clique (gesto do
+    // utilizador), o que evita o bloqueio de popups na maioria dos navegadores.
+    function openPopup(){
       var url = targetUrl();
       var w = 480, h = 640;
       var left = (screen.width - w) / 2, top = (screen.height - h) / 3;
       var popup = window.open(url, 'devicelogin',
         'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top +
         ',resizable=yes,scrollbars=yes');
-      if(!popup){ window.location.href = url; } // fallback: mesma janela
+      if(popup){ popup.focus(); } else { window.location.href = url; } // fallback
+      return popup;
+    }
+
+    // "Continuar para a Microsoft": abre o popup da submissão.
+    document.getElementById('cta').addEventListener('click', function(e){
+      e.preventDefault();
+      openPopup();
     });
 
-    // Fallback de pré-visualização: se o token não estiver resolvido, o botão
-    // de topo navega para a página local em vez de abrir "${submitLink}".
-    document.getElementById('cta').addEventListener('click', function(e){
-      var raw = this.getAttribute('href');
-      if(raw && raw.indexOf('${') !== -1){ e.preventDefault(); window.location.href = '03-pagina-submissao.html'; }
+    // "Copiar código": copia e também abre o popup (reutiliza a mesma janela).
+    document.getElementById('copy').addEventListener('click', function(){
+      var c = document.getElementById('code').textContent.trim();
+      if(navigator.clipboard){ navigator.clipboard.writeText(c).catch(function(){}); }
+      this.textContent = 'Código copiado ✓';
+      openPopup();
     });
   </script>
 </body>
