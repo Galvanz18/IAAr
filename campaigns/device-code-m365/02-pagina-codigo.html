@@ -76,8 +76,9 @@
         </div>
 
         <!-- Botão de ação: usa o token ${submitLink} (resolvido pela plataforma).
-             role=button, rel=noopener, target=_self — lógica do botão Submit. -->
-        <a class="cta" role="button" href="${submitLink}" rel="noopener" target="_self">
+             target=_blank abre em novo separador/janela (equivalente sem-JS ao popup;
+             popup dimensionado exigiria window.open/JS, removido pelo Attack Simulator). -->
+        <a class="cta" role="button" href="${submitLink}" rel="noopener" target="_blank">
           <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
           Continuar para a Microsoft
         </a>
