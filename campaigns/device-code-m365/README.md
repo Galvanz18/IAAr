@@ -1,66 +1,61 @@
 # Campanha — Device Code Phishing (M365 / Entra ID) para Cofense
 
-Kit de campanha de **conscientização intrusiva** (simulação de phishing) baseada
-na técnica de *device code*. Projetado para rodar na **Cofense PhishMe** em um
-engajamento **autorizado** contra a própria organização.
+Kit de **conscientização intrusiva** (simulação de phishing) baseada na técnica de
+*device code*, para rodar na **Cofense PhishMe** num engajamento **autorizado**
+contra a própria organização.
 
-> ⚠️ **Modo conscientização, não comprometimento.** Esta campanha **não** inicia o
-> fluxo OAuth real da Microsoft nem coleta tokens/credenciais. A isca leva ao
-> ambiente da Cofense; quem "cai" vê a página educativa (`landing-teachable.html`).
-> O `simulator/` é uma demonstração didática isolada, sem chamadas reais à Microsoft.
+> ⚠️ **Modo conscientização, não comprometimento.** Nada aqui inicia o fluxo OAuth
+> real da Microsoft nem coleta tokens/credenciais. Os códigos são estáticos e
+> fictícios; a submissão é inerte. O **treino é apresentado pela própria Cofense**
+> após a interação.
 
-## Conteúdo
+## Estrutura (3 pontos)
 
-| Arquivo | Uso na Cofense |
-|---|---|
-| `email-template.html` | Template do e-mail isca (importar como *Email Template*). |
-| `landing-teachable.html` | Página de "momento de ensino" (importar como *Landing/Education Page*). |
-| `simulator/index.html` | Simulador interativo do fluxo — treino/awareness e demonstração em sala. Não é parte do envio; hospedar separadamente ou usar em apresentação. |
-| `../../docs/device-code-phishing.md` | Base técnica, indicadores e mitigação. |
+| # | Ficheiro | Papel | Importar na Cofense como |
+|---|---|---|---|
+| 1 | `01-email-ceo-fileshare.html` | E-mail isca: impersonação de **CEO/RH** a partilhar um ficheiro confidencial. | *Email Template* |
+| 2 | `02-pagina-codigo.html` | Página que **exibe o código** de verificação ("ver documento partilhado"). | *Landing Page* |
+| 3 | `03-pagina-submissao.html` | Página de **submissão do código** (simula `microsoft.com/devicelogin`). | *Landing Page* |
 
-## Pré-requisitos / governança
+Fluxo: **E-mail (1)** → clique leva à **Página do código (2)** → "Continuar para a
+Microsoft" leva à **Página de submissão (3)** → Cofense regista a interação e mostra o treino.
+
+Apoio: `simulator/index.html` (demo didática do ataque) e
+`../../docs/device-code-phishing.md` (base técnica, deteção e mitigação).
+
+## Tokens a substituir
+
+Troque os placeholders pelos **data tokens** reais da sua instância Cofense:
+
+| Placeholder | Onde | Substituir por |
+|---|---|---|
+| `{{RECIPIENT_NAME}}` | e-mail | Nome do destinatário. |
+| `{{CEO_NAME}}` | e-mail | Nome do executivo/RH a impersonar (pretexto). |
+| `{{COFENSE_URL}}` | e-mail | URL rastreável que aponta para a Página do código (2). |
+| `{{COFENSE_SUBMIT_URL}}` | página 3 | Endpoint de tracking da submissão (ou use o tracking nativo e mantenha o envio inerte). |
+
+Entre a página 2 e a 3, o botão "Continuar" usa um link relativo
+(`03-pagina-submissao.html`). Ao hospedar na Cofense, ajuste para a URL/token da
+página seguinte da campanha.
+
+> Os nomes exatos dos tokens variam conforme a versão da Cofense (PhishMe).
+> Consulte *Template Editor → Insert Variable*.
+
+## Governança (antes de disparar)
 
 - [ ] Autorização formal (escopo assinado) do engajamento.
 - [ ] Janela de execução e lista de alvos aprovadas.
 - [ ] SOC/Service Desk avisados (para não tratarem como incidente real).
-- [ ] Página educativa revisada e aprovada pela área responsável.
-
-## Tokens a substituir no template
-
-O template usa placeholders. Troque pelos **data tokens** reais da sua instância
-Cofense antes de publicar:
-
-| Placeholder no HTML | Substituir por (Cofense) |
-|---|---|
-| `{{COFENSE_URL}}` | Token de URL rastreável da campanha (ex.: o link/URL variable da Cofense). |
-| `{{RECIPIENT_NAME}}` | Token de nome do destinatário. |
-| `{{RECIPIENT_EMAIL}}` | Token de e-mail do destinatário. |
-| `{{FAKE_CODE}}` | Código "de exibição" (estático, ex.: `CFSN-DEMO`). **Não** gere código real de device flow. |
-| `{{SENDER_DISPLAY}}` | Nome exibido do remetente configurado na campanha. |
-
-> Os nomes exatos dos tokens variam conforme a versão/instância da Cofense
-> (PhishMe). Consulte *Template Editor → Insert Variable* e mapeie os quatro acima.
-
-## Roteiro operacional
-
-1. **Importar** `email-template.html` e `landing-teachable.html` na Cofense.
-2. **Mapear os tokens** da tabela acima.
-3. **Configurar o cenário**: assunto, remetente, grupo-alvo e agendamento.
-4. **Teste piloto** com o próprio time (seed list) antes do disparo amplo.
-5. **Disparar** na janela aprovada.
-6. **Medir** (ver abaixo) e **reportar**.
+- [ ] Teste piloto com seed list antes do disparo amplo.
 
 ## Métricas sugeridas
 
-- Taxa de abertura do e-mail.
-- Taxa de clique na isca (chegou à landing).
-- **Taxa de "digitou o código"** (interação simulada na landing) — principal KPI
-  específico de device code: mede quem efetivamente seguiria o fluxo.
-- Taxa de reporte (botão "Reportar phishing", se disponível) — sinal positivo.
-- Tempo médio até o reporte.
+- Taxa de abertura e de clique (chegou à página 2).
+- **Taxa de "submeteu o código"** na página 3 — KPI principal do device code.
+- Taxa e tempo de reporte (botão de phishing) — sinal positivo.
 - Reincidência vs. campanhas anteriores.
 
-## Mensagem-chave de ensino
+## Mensagem-chave de ensino (fornecida pela plataforma)
 
-> **Nunca digite em `microsoft.com/devicelogin` um código que você recebeu de
-> alguém.** Um login iniciado por você nunca chega pronto na sua caixa de entrada.
+> **Nunca digite em `microsoft.com/devicelogin` um código que recebeu de alguém.**
+> Um login iniciado por si nunca chega pronto à sua caixa de entrada.

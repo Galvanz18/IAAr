@@ -1,0 +1,89 @@
+<!--
+  PONTO 2 — PÁGINA DO CÓDIGO (exibe o código de verificação)
+  Campanha device code / M365 · uso autorizado na Cofense (modo conscientização).
+  O código é ESTÁTICO e fictício (não é um device code real). Nada é coletado aqui.
+  O botão "Continuar" leva ao PONTO 3 (submissão). Em produção, aponte o href para
+  a URL/token da Cofense do passo seguinte.
+-->
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documento partilhado · OneDrive</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef1f4;color:#201f1e;
+       font-family:'Segoe UI',system-ui,Arial,sans-serif;}
+  .bar{background:#fff;border-bottom:1px solid #e1dfdd;padding:14px 22px;
+       display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#323130;}
+  .ms{display:inline-grid;grid-template-columns:9px 9px;grid-gap:2px;}
+  .ms i{width:9px;height:9px;display:block;}
+  .ms .r{background:#f25022}.ms .g{background:#7fba00}.ms .b{background:#00a4ef}.ms .y{background:#ffb900}
+  .wrap{display:flex;justify-content:center;padding:56px 16px;}
+  .card{background:#fff;border:1px solid #e1dfdd;border-radius:8px;width:360px;max-width:100%;
+        box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;}
+  .doc{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #edebe9;font-weight:600;font-size:14px;}
+  .doc .ic{width:26px;height:26px;border-radius:5px;background:#e9f2fb;color:#0364b8;display:flex;align-items:center;justify-content:center;}
+  .body{padding:22px 24px 26px;text-align:center;}
+  .lock{width:48px;height:48px;border-radius:50%;border:2px solid #0067b8;color:#0067b8;
+        display:flex;align-items:center;justify-content:center;margin:4px auto 14px;font-size:20px;}
+  h1{font-size:18px;margin:0 0 6px;}
+  .sub{font-size:13px;color:#605e5c;margin:0 0 18px;line-height:1.5;}
+  .codebox{background:#111418;border-radius:8px;padding:16px;margin:0 0 18px;}
+  .codebox .lbl{color:#9aa0ab;font-size:11px;letter-spacing:1px;margin-bottom:8px;}
+  .codebox .code{color:#4c9aff;font-size:26px;font-weight:700;letter-spacing:6px;margin-bottom:12px;}
+  .copy{background:#0067b8;color:#fff;border:0;border-radius:4px;padding:7px 16px;font-size:13px;cursor:pointer;}
+  .steps{background:#f7f9fb;border:1px solid #edebe9;border-radius:8px;padding:12px 14px;text-align:left;margin:0 0 18px;}
+  .steps div{display:flex;align-items:center;gap:10px;font-size:13px;color:#323130;padding:5px 0;}
+  .steps .n{min-width:20px;height:20px;background:#0067b8;color:#fff;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;}
+  .cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#0067b8;color:#fff;
+       text-decoration:none;border:0;border-radius:4px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;}
+  .secure{font-size:12px;color:#605e5c;margin:14px 0 0;}
+  footer{text-align:center;color:#a19f9d;font-size:12px;padding:24px 0 40px;}
+</style>
+</head>
+<body>
+  <div class="bar"><span class="ms"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span> Documento partilhado no OneDrive</div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="doc"><span class="ic">▲</span> Orçamento_2026_Confidencial.docx</div>
+      <div class="body">
+        <div class="lock">🔒</div>
+        <h1>Ver documento partilhado</h1>
+        <p class="sub">Alguém partilhou um documento consigo no OneDrive.<br>Verifique a sua identidade com a Microsoft para aceder.</p>
+
+        <div class="codebox">
+          <div class="lbl">O SEU CÓDIGO DE VERIFICAÇÃO</div>
+          <div class="code" id="code">AN62-83B9</div>
+          <button class="copy" id="copy">Copiar código</button>
+        </div>
+
+        <div class="steps">
+          <div><span class="n">1</span> Copie o código acima</div>
+          <div><span class="n">2</span> Clique em continuar e cole (Ctrl+V)</div>
+          <div><span class="n">3</span> Inicie sessão na sua conta Microsoft</div>
+        </div>
+
+        <!-- Em produção: href = URL/token Cofense do PONTO 3 -->
+        <a class="cta" href="03-pagina-submissao.html">
+          <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
+          Continuar para a Microsoft
+        </a>
+        <p class="secure">🔒 Protegido pela Microsoft</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Microsoft Corporation. Todos os direitos reservados.</footer>
+
+  <script>
+    document.getElementById('copy').addEventListener('click', function(){
+      var c = document.getElementById('code').textContent.trim();
+      if(navigator.clipboard){ navigator.clipboard.writeText(c).catch(function(){}); }
+      this.textContent = 'Código copiado ✓';
+    });
+  </script>
+</body>
+</html>

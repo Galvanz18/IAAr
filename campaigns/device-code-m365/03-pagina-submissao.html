@@ -1,0 +1,78 @@
+<!--
+  PONTO 3 — PÁGINA DE SUBMISSÃO DO CÓDIGO (simula microsoft.com/devicelogin)
+  Campanha device code / M365 · uso autorizado na Cofense (modo conscientização).
+  IMPORTANTE: esta página NÃO coleta nem envia credenciais/tokens. O envio é inerte;
+  na Cofense, a submissão é apenas registada como "interação" (KPI "digitou o código")
+  e o treino é apresentado pela própria plataforma a seguir.
+  Para registar a interação, aponte {{COFENSE_SUBMIT_URL}} para o endpoint de
+  tracking da campanha (ou deixe o comportamento inerte e use o tracking nativo).
+-->
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iniciar sessão na sua conta</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:#1b1b1b;font-family:'Segoe UI',system-ui,Arial,sans-serif;
+       display:flex;flex-direction:column;min-height:100vh;}
+  .logo{padding:28px 0 0 28px;}
+  .ms{display:inline-flex;align-items:center;gap:8px;font-size:15px;color:#5e5e5e;font-weight:600;}
+  .ms .grid{display:inline-grid;grid-template-columns:10px 10px;grid-gap:2px;}
+  .ms .grid i{width:10px;height:10px;display:block;}
+  .r{background:#f25022}.g{background:#7fba00}.b{background:#00a4ef}.y{background:#ffb900}
+  .center{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:48px 16px;}
+  .card{width:440px;max-width:100%;background:#fff;border:1px solid #e6e6e6;
+        box-shadow:0 2px 8px rgba(0,0,0,.10);padding:40px 44px 36px;}
+  h1{font-size:24px;font-weight:600;margin:0 0 6px;}
+  p.lead{font-size:15px;color:#1b1b1b;margin:0 0 22px;}
+  input{width:100%;border:0;border-bottom:1px solid #666;padding:8px 2px;font-size:16px;
+        letter-spacing:3px;outline:none;}
+  input:focus{border-bottom:2px solid #0067b8;}
+  .hint{font-size:13px;color:#666;margin:18px 0 26px;}
+  .hint a{color:#0067b8;text-decoration:none;}
+  .row{display:flex;justify-content:flex-end;}
+  button{background:#0067b8;color:#fff;border:0;padding:8px 32px;font-size:15px;cursor:pointer;}
+  button:hover{background:#005da6;}
+  .msg{display:none;margin-top:20px;font-size:14px;color:#107c10;}
+  footer{background:#f2f2f2;color:#666;font-size:12px;text-align:right;padding:10px 24px;}
+  footer a{color:#666;text-decoration:none;margin-left:16px;}
+</style>
+</head>
+<body>
+  <div class="logo">
+    <span class="ms"><span class="grid"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span> Microsoft</span>
+  </div>
+
+  <div class="center">
+    <div class="card">
+      <h1>Introduza o código</h1>
+      <p class="lead">Introduza o código apresentado na sua aplicação ou dispositivo.</p>
+
+      <!-- Envio inerte / tracking Cofense. NÃO transmite credenciais. -->
+      <form id="f" action="{{COFENSE_SUBMIT_URL}}" method="post" onsubmit="return handle(event)">
+        <input id="code" name="otc" autocomplete="off" placeholder="Código" aria-label="Código" />
+        <p class="hint">Está a ter problemas? <a href="#">Obtenha ajuda para iniciar sessão</a></p>
+        <div class="row"><button type="submit">Seguir</button></div>
+      </form>
+
+      <p class="msg" id="msg">A verificar o código…</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 Microsoft <a href="#">Termos de utilização</a> <a href="#">Privacidade e cookies</a>
+  </footer>
+
+  <script>
+    // Simulação: não envia nada. A Cofense regista a interação e mostra o treino.
+    function handle(e){
+      e.preventDefault();
+      document.getElementById('msg').style.display = 'block';
+      // Em produção, substitua por: document.getElementById('f').submit();
+      return false;
+    }
+  </script>
+</body>
+</html>

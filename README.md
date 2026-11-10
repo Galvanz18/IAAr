@@ -7,7 +7,8 @@ treinamento de segurança.
 
 - [`campaigns/device-code-m365/`](campaigns/device-code-m365/) — Campanha de
   **device code phishing** (Microsoft 365 / Entra ID) para rodar na **Cofense
-  PhishMe**: isca de e-mail, página educativa e simulador interativo do fluxo.
+  PhishMe**: e-mail isca (CEO/RH), página do código, página de submissão e
+  simulador interativo do fluxo.
 
 ## Documentação
 

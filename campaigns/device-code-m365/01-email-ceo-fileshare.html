@@ -1,0 +1,90 @@
+<!--
+  PONTO 1 — E-MAIL ISCA (impersonação de CEO / RH partilhando um ficheiro)
+  Campanha de conscientização device code / M365 · uso autorizado na Cofense.
+  Substitua os placeholders {{...}} pelos data tokens da sua instância Cofense.
+  {{COFENSE_URL}} -> link rastreável que leva ao PONTO 2 (página do código).
+  Assunto sugerido: "Documento partilhado consigo: Orçamento_2026_Confidencial"
+-->
+<div style="margin:0;padding:0;background:#f3f2f1;font-family:'Segoe UI',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f2f1;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+               style="max-width:600px;width:100%;background:#ffffff;border:1px solid #e1dfdd;border-radius:6px;">
+          <!-- Cabeçalho OneDrive -->
+          <tr>
+            <td style="padding:22px 32px 14px 32px;border-bottom:1px solid #edebe9;">
+              <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+                <td style="vertical-align:middle;padding-right:10px;">
+                  <span style="display:inline-block;width:26px;height:26px;background:#0364b8;border-radius:4px;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:26px;">▲</span>
+                </td>
+                <td style="vertical-align:middle;font-size:16px;font-weight:600;color:#323130;">OneDrive</td>
+              </tr></table>
+            </td>
+          </tr>
+
+          <!-- Corpo -->
+          <tr>
+            <td style="padding:28px 32px 8px 32px;color:#323130;font-size:15px;line-height:1.55;">
+              <p style="margin:0 0 20px 0;">Olá {{RECIPIENT_NAME}},</p>
+
+              <!-- Cartão do documento -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                     style="border:1px solid #e1dfdd;border-radius:6px;margin:0 0 22px 0;">
+                <tr>
+                  <td style="padding:18px 20px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
+                      <td style="vertical-align:middle;padding-right:14px;width:40px;">
+                        <span style="display:inline-block;width:40px;height:40px;background:#e9f2fb;border-radius:4px;color:#2b579a;font-size:16px;font-weight:700;text-align:center;line-height:40px;">W</span>
+                      </td>
+                      <td style="vertical-align:middle;">
+                        <div style="font-size:15px;font-weight:600;color:#323130;">Orçamento_2026_Confidencial.docx</div>
+                        <div style="font-size:12px;color:#605e5c;">Partilhado por {{CEO_NAME}} · Diretor-Geral</div>
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 20px 0;">
+                <strong>{{CEO_NAME}}</strong> partilhou um documento consigo e pediu
+                a sua revisão com urgência, ainda hoje. O ficheiro é confidencial, por
+                isso é necessário confirmar a sua identidade para o abrir.
+              </p>
+
+              <!-- CTA -> PONTO 2 -->
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px 0;">
+                <tr>
+                  <td align="center" style="background:#0364b8;border-radius:4px;">
+                    <a href="{{COFENSE_URL}}"
+                       style="display:inline-block;padding:12px 30px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;">
+                      Abrir documento
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 4px 0;color:#605e5c;font-size:13px;">
+                Este link é pessoal e expira em 24 horas. Não o reencaminhe.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Rodapé -->
+          <tr><td style="border-bottom:1px solid #edebe9;padding-top:16px;"></td></tr>
+          <tr>
+            <td style="padding:16px 32px 28px 32px;color:#a19f9d;font-size:12px;line-height:1.5;">
+              Esta mensagem foi enviada a partir de uma caixa não monitorizada.<br>
+              © 2026 Microsoft Corporation · One Microsoft Way, Redmond, WA 98052.
+            </td>
+          </tr>
+        </table>
+        <!-- Marca de simulação (opcional, conforme política do engajamento):
+        <div style="max-width:600px;margin:10px auto 0;color:#b3b0ad;font-size:11px;text-align:center;">
+          Simulação de conscientização autorizada — IAAr.
+        </div>
+        -->
+      </td>
+    </tr>
+  </table>
+</div>
