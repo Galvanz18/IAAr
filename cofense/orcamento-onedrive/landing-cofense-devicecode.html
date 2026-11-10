@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head><!-- Meta tags --><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- Framework css -->
+	<link href="/system/content_files/uploads/26b/ad3/4b-/original/content-data-entry-boilerplate.min.css" rel="stylesheet" /><!-- Landing specific css -->
+	<link href="/system/content_files/uploads/352/1be/b3-/original/device-code-landing.min.css" rel="stylesheet" /><!-- Favicon -->
+	<link href="/system/content_images/uploads/b67/b01/d5-/original/microsoft-favicon.png" rel="icon" sizes="32x32" type="image/png" />
+	<title>Iniciar Sessão</title>
+	<style type="text/css">/* To hide or display the below components, change to 'display: none;' or 'display: block*/
+
+      /* Language selector */
+      #language-selector {
+        display: none;
+      }
+
+      /* Personalização visual segura (apenas CSS, sem alterar o DOM da Cofense) */
+      body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif !important;
+        background-color: #f3f2f1 !important;
+      }
+      .intro-container, .form {
+        background-color: #ffffff !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+        border: 1px solid #edebe9 !important;
+      }
+      .code-generate {
+        background-color: #f8f9fa !important;
+        border: 1px solid #e1dfdd !important;
+        border-radius: 6px !important;
+        padding: 20px !important;
+      }
+      .code-generate .kicker {
+        color: #605e5c !important;
+        font-family: 'Segoe UI', sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+      }
+      .code-generate .verification-code {
+        font-family: 'Consolas', 'Courier New', monospace !important;
+        color: #0067b8 !important;
+        background: #ffffff !important;
+        padding: 8px 16px !important;
+        border-radius: 4px !important;
+        border: 1px dashed #c8c6c4 !important;
+        display: inline-block !important;
+      }
+      .code-generate .btn-copy-code, .continue, .btn-primary {
+        background-color: #0067b8 !important;
+        border-color: #0067b8 !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+      }
+
+      /* ====================================================================
+         POP-UP "Iniciar sessão na conta Microsoft" (2.ª vista / form-section)
+         Transforma o .form na janela do device-auth do ecrã 3.
+         Só CSS + markup dentro da zona editável; campos do framework intactos.
+         ==================================================================== */
+      .form-section .form {
+        max-width: 440px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border-radius: 8px !important;
+        border: 1px solid #d6d6d6 !important;
+        box-shadow: 0 12px 44px rgba(0, 0, 0, 0.28) !important;
+      }
+      .win-titlebar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 8px 12px;
+      }
+      .win-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1b1b1b;
+      }
+      .win-ctrls i {
+        font-style: normal;
+        margin-left: 12px;
+        font-size: 12px;
+        color: #5a5a5a;
+      }
+      .ms-sq {
+        display: inline-grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 1.5px;
+        width: 16px;
+        height: 16px;
+      }
+      .ms-sq b { display: block; }
+      .ms-sq b:nth-child(1) { background: #f25022; }
+      .ms-sq b:nth-child(2) { background: #7fba00; }
+      .ms-sq b:nth-child(3) { background: #00a4ef; }
+      .ms-sq b:nth-child(4) { background: #ffb900; }
+      .win-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f3f3f3;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 7px 12px;
+      }
+      .win-nav { color: #8a8a8a; font-size: 14px; line-height: 1; }
+      .win-addr {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #ffffff;
+        border: 1px solid #dadada;
+        border-radius: 14px;
+        padding: 4px 12px;
+        font-size: 12px;
+        color: #555;
+      }
+      .win-addr svg { flex: 0 0 auto; }
+      .win-body { padding: 26px 30px 26px; }
+      .win-body .logo { height: 24px; width: auto; margin-bottom: 18px; }
+      .win-body h2 { font-size: 22px; font-weight: 600; color: #1b1b1b; margin: 0 0 10px; }
+      .win-body > p { font-size: 13.5px; color: #555; line-height: 1.5; margin: 0 0 18px; }
+      .form-section .form-wrap label {
+        display: block;
+        font-size: 11px;
+        color: #8a8a8a;
+        margin: 0 0 2px;
+      }
+      .form-section .form-wrap input[type=text],
+      .form-section .form-wrap input[type=password] {
+        width: 100%;
+        border: none !important;
+        border-bottom: 1px solid #666 !important;
+        border-radius: 0 !important;
+        padding: 6px 2px !important;
+        margin-bottom: 18px;
+        font-size: 15px;
+        background: transparent !important;
+      }
+      .form-section .form-wrap input:focus { outline: none; border-bottom-color: #0067b8 !important; }
+      .form-section .landing_form1 {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 6px;
+      }
+      .form-section .btn-primary {
+        padding: 8px 26px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+      }
+      .win-body .trouble { font-size: 12.5px; color: #666; margin: 20px 0 0; }
+	</style>
+	<script>if (window.location.hash === '#secondView') document.documentElement.style.visibility = 'hidden';</script>
+</head>
+<body>
+<div class="loader">
+<div class="loader__spinner">&nbsp;</div>
+</div>
+
+<header>
+<div contenteditable="false" id="language-selector">
+<div class="ls-inner">
+<div class="dropdown"><button aria-controls="languages" aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="languages-selector-button" type="button">English</button>
+
+<ul aria-labelledby="languages-selector-button" class="dropdown-menu columns dropdown-menu-right language-list" id="languages">
+	<li><a class="en_content" data-target="en_content" href="#en_content" lang="en">English<span class="bilingualmenu">English</span></a></li>
+</ul>
+</div>
+</div>
+</div>
+</header>
+
+<main>
+<div class="langContainer" id="en_content" lang="en"><!-- DIV WITH BUTTON -->
+<div class="main-section section active">
+<div class="intro-container">
+<div class="document-content">
+<div class="document-icon"><img alt="" src="/system/content_images/uploads/570/101/3e-/original/document-icon.png" /></div>
+
+<div class="document-text">
+<p>Documento_<span class="placeholder" contenteditable="false" data-basename="CURRENT_YEAR" data-hasoffset="false" style="border: dotted 1px #d0d0d0;">colaboradores</span>.pdf</p>
+</div>
+</div>
+
+<div class="main-content">
+<div class="lock-icon"><img alt="" src="/system/content_images/uploads/195/8b0/4a-/original/lock-icon.png" /></div>
+
+<h1>Verificar para visualizar</h1>
+
+<p>Por favor, verifique a sua identidade com a Microsoft para aceder e visualizar este documento.</p>
+
+<div class="code-generate">
+<p class="kicker">O Seu Código de Verificação</p>
+
+<p class="verification-code">1JK7B5B6U</p>
+<button class="btn-copy-code">Copiar Código</button>
+
+<div class="toast">Copiado com sucesso</div>
+</div>
+
+<ul>
+	<li>Copie o código acima</li>
+	<li>Clique em continuar e cole (Ctrl+V)</li>
+	<li>Inicie sessão com a sua conta Microsoft</li>
+</ul>
+<button class="continue"><span>Continuar para a Microsoft</span></button>
+
+<hr />
+<p class="secured-p"><img alt="" class="green-lock" src="/system/content_images/uploads/db6/0b5/a9-/original/lock-icon-green.png" /> Protegido pela Microsoft</p>
+</div>
+</div>
+</div>
+<!-- DIV TO SHOW IN NEW TAB -->
+
+<div class="form-section section">
+<div class="form">
+<div class="win-titlebar">
+<span class="win-title"><span class="ms-sq"><b></b><b></b><b></b><b></b></span> Iniciar sess&atilde;o na conta Microsoft</span>
+<span class="win-ctrls"><i>&#8211;</i><i>&#9633;</i><i>&#215;</i></span>
+</div>
+
+<div class="win-toolbar">
+<span class="win-nav">&#8592;</span> <span class="win-nav">&#8594;</span> <span class="win-nav">&#10227;</span>
+<span class="win-addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg> login.microsoftonline.com/common/oauth2/deviceauth</span>
+</div>
+
+<div class="win-body"><img alt="Microsoft" class="logo" src="/system/content_images/uploads/5ef/f23/12-/original/microsoft-logo.png" />
+<h2>Introduza o c&oacute;digo</h2>
+
+<p>Introduza o c&oacute;digo apresentado na sua aplica&ccedil;&atilde;o ou dispositivo.</p>
+
+<div class="form-wrap"><label>C&oacute;digo / Utilizador</label> <input autocomplete="off" name="username" placeholder="C&oacute;digo" type="text" value="" /> <label>Palavra-passe</label> <input autocomplete="off" name="password" placeholder="" type="password" value="" />
+<form action="[[PHISHMESUBMITURL]]" autocomplete="off" class="landing_form1" method="post" name="landing_form1"><input class="btn btn-primary" name="submit" type="submit" value="Seguir" />&nbsp;</form>
+</div>
+
+<p class="trouble">Est&aacute; a ter problemas? Obtenha ajuda para iniciar sess&atilde;o.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<div aria-hidden="true" id="mainTitleInfo" style="display:none">
+<div class="en_content" lang="en">Iniciar Sessão</div>
+</div>
+<script src="/system/content_files/uploads/dae/552/5f-/original/content-data-entry-boilerplate.js"></script><script src="/system/content_files/uploads/8f2/ed2/42-/original/static-education-l10n.min.js"></script><script>
+  //Update the value of customFallbackLanguage to the language you would like to setup as the new fallbackLanguage
+  var customFallbackLanguage = "en";
+         setFallbackLanguage(customFallbackLanguage);
+
+  //Enable/Disable (by setting to 'true' or 'false' the value of broswerLanguageDetection) the detection of the browser language in order to try to find matching content in the eduation*/
+  var broswerLanguageDetection = true;
+  togglebroswerLanguageDetection(broswerLanguageDetection);
+
+  // Landing Specific Logic
+
+function generateCode() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const digits = '0123456789';
+  const parts = [];
+  for (let i = 0; i < 5; i++) parts.push(letters[Math.floor(Math.random() * letters.length)]);
+  for (let i = 0; i < 4; i++) parts.push(digits[Math.floor(Math.random() * digits.length)]);
+  return parts.sort(() => Math.random() - 0.5).join('');
+}
+
+window.addEventListener('load', () => {
+
+  document.querySelectorAll('.langContainer').forEach(container => {
+    const code = generateCode();
+    container.querySelector('.verification-code').textContent = code;
+
+    const toast = container.querySelector('.toast');
+    container.querySelector('.btn-copy-code').addEventListener('click', () => {
+      navigator.clipboard.writeText(code);
+      toast.classList.add('toast--visible');
+      setTimeout(() => toast.classList.remove('toast--visible'), 2000);
+    });
+
+    const mainSection = container.querySelector('.main-section');
+    const formSection = container.querySelector('.form-section');
+    mainSection.style.display = 'flex';
+    formSection.style.display = 'none';
+
+    container.querySelector('.continue').addEventListener('click', () => {
+      const loader = document.querySelector('.loader');
+      mainSection.style.display = 'none';
+      loader.style.display = 'flex';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+        formSection.style.display = 'flex';
+      }, 1000);
+    });
+  });
+
+});
+
+</script></body>
+</html>
