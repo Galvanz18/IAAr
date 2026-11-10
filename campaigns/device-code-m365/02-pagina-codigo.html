@@ -109,12 +109,36 @@
       openPopup();
     });
 
-    // "Copiar código": copia e também abre o popup (reutiliza a mesma janela).
+    // "Copiar código": copia o código para o clipboard (sem abrir popup).
+    function copiarTexto(txt){
+      // Caminho moderno (requer contexto seguro: https ou localhost).
+      if(navigator.clipboard && window.isSecureContext){
+        return navigator.clipboard.writeText(txt);
+      }
+      // Fallback para contextos não seguros / navegadores antigos.
+      return new Promise(function(resolve, reject){
+        try{
+          var ta = document.createElement('textarea');
+          ta.value = txt;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          ok ? resolve() : reject();
+        }catch(e){ reject(e); }
+      });
+    }
+
     document.getElementById('copy').addEventListener('click', function(){
+      var btn = this;
       var c = document.getElementById('code').textContent.trim();
-      if(navigator.clipboard){ navigator.clipboard.writeText(c).catch(function(){}); }
-      this.textContent = 'Código copiado ✓';
-      openPopup();
+      copiarTexto(c).then(function(){
+        btn.textContent = 'Código copiado ✓';
+      }).catch(function(){
+        btn.textContent = 'Copie manualmente: ' + c;
+      });
     });
   </script>
 </body>
