@@ -100,6 +100,23 @@
     .browser-win{width:100%;max-width:100%;}
     .tab{min-width:0;}
   }
+
+  /* Adapta a moldura do browser ao tema do SO do utilizador (claro/escuro).
+     A página da Microsoft lá dentro mantém-se clara, como no browser real. */
+  @media (prefers-color-scheme: dark){
+    .browser-win{border-color:#0a0a0a;}
+    .tabstrip{background:#202124;}
+    .tab{background:#323639;color:#e8eaed;}
+    .winctrls .wc{color:#e8eaed;}
+    .winctrls .wc:hover{background:#3f4144;}
+    .toolbar{background:#323639;border-bottom-color:#17191a;}
+    .navbtns{color:#c7c7c7;}
+    .navbtns .dim{color:#5f6368;}
+    .omnibox{background:#3b3f42;border-color:#5a5d60;color:#cfd2d5;}
+    .omnibox svg{fill:#9aa0a6;}
+    .omnibox .host{color:#e8eaed;}
+    .omnibox .path{color:#9aa0a6;}
+  }
   .modal-logo{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#5e5e5e;font-weight:600;margin-bottom:18px;}
   .browser-body h2{font-size:22px;font-weight:600;margin:0 0 6px;}
   .browser-body p.lead{font-size:14px;color:#1b1b1b;margin:0 0 20px;}
