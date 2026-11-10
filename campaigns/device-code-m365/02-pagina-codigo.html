@@ -1,15 +1,13 @@
 <!--
-  PONTO 2 — PÁGINA DO CÓDIGO (versão SEM JavaScript)
-  Compatível com Microsoft Attack Simulator (remove scripts/JS das páginas) e
-  também com a Cofense. Uso autorizado · modo conscientização.
+  PONTO 2 — PÁGINA DO CÓDIGO (versão SEM JavaScript, com popup em CSS puro)
+  Compatível com Microsoft Attack Simulator (remove scripts/JS) e Cofense.
+  Uso autorizado · modo conscientização.
 
-  Sem JS NÃO é possível:
-    - copiar automaticamente para o clipboard (o utilizador copia manualmente);
-    - abrir popup (usa-se um link com target="_blank", que abre novo separador).
+  POPUP SEM JS: "checkbox hack" (label + input:checked ~ sibling). Clicar em
+  "Continuar para a Microsoft" abre um modal com a janela de submissão do código
+  (estilo devicelogin). O botão "Seguir" usa o token ${submitLink} (métricas).
 
-  PHISHING_URL_AQUI  -> insira o link de phishing pela própria ferramenta:
-    · Attack Simulator: use o controlo de link/URL de phishing do editor.
-    · Cofense: substitua pelo token de URL (ex.: ${submitLink}).
+  Cópia do código: sem JS não há auto-copiar; o código é selecionável (manual).
   O código é estático e fictício (não é um device code real). Nada é coletado aqui.
 -->
 <!doctype html>
@@ -39,7 +37,6 @@
   .sub{font-size:13px;color:#605e5c;margin:0 0 18px;line-height:1.5;}
   .codebox{background:#111418;border-radius:8px;padding:18px 16px;margin:0 0 18px;}
   .codebox .lbl{color:#9aa0ab;font-size:11px;letter-spacing:1px;margin-bottom:10px;}
-  /* Código grande e fácil de selecionar (cópia manual). user-select force. */
   .codebox .code{color:#4c9aff;font-size:28px;font-weight:700;letter-spacing:6px;
      -webkit-user-select:all;user-select:all;cursor:text;}
   .codebox .tip{color:#6b7280;font-size:11px;margin-top:10px;}
@@ -50,9 +47,37 @@
        text-decoration:none;border:0;border-radius:4px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;}
   .secure{font-size:12px;color:#605e5c;margin:14px 0 0;}
   footer{text-align:center;color:#a19f9d;font-size:12px;padding:24px 0 40px;}
+
+  /* ---- Popup em CSS puro (checkbox hack) ---- */
+  #openModal,#closeModal{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+  .modal-overlay{
+    display:none;position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,.45);
+    align-items:flex-start;justify-content:center;padding:60px 16px;
+  }
+  #openModal:checked ~ .modal-overlay{display:flex;}
+  #closeModal:checked ~ .modal-overlay{display:none !important;}
+  .modal-card{position:relative;width:440px;max-width:100%;background:#fff;
+    border:1px solid #e6e6e6;box-shadow:0 8px 28px rgba(0,0,0,.28);padding:36px 40px 30px;}
+  .modal-close{position:absolute;top:10px;right:14px;font-size:16px;color:#605e5c;cursor:pointer;line-height:1;}
+  .modal-logo{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#5e5e5e;font-weight:600;margin-bottom:18px;}
+  .modal-card h2{font-size:22px;font-weight:600;margin:0 0 6px;}
+  .modal-card p.lead{font-size:14px;color:#1b1b1b;margin:0 0 20px;}
+  .otc{width:100%;border:0;border-bottom:1px solid #666;padding:8px 2px;font-size:16px;letter-spacing:3px;outline:none;}
+  .otc:focus{border-bottom:2px solid #0067b8;}
+  .modal-hint{font-size:12px;color:#666;margin:16px 0 22px;}
+  .modal-row{display:flex;justify-content:flex-end;}
+  .modal-submit{background:#0067b8;color:#fff;text-decoration:none;padding:8px 30px;font-size:14px;
+    display:inline-flex;align-items:center;}
+  .modal-submit:hover{background:#005da6;}
 </style>
 </head>
 <body>
+
+  <!-- Gatilhos do popup (escondidos). Irmãos do .modal-overlay para o seletor ~ -->
+  <input type="checkbox" id="openModal" aria-hidden="true" tabindex="-1">
+  <input type="checkbox" id="closeModal" aria-hidden="true" tabindex="-1">
+
   <div class="bar"><span class="ms"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span> Documento partilhado no OneDrive</div>
 
   <div class="wrap">
@@ -75,18 +100,33 @@
           <div><span class="n">3</span> Inicie sessão na sua conta Microsoft</div>
         </div>
 
-        <!-- Botão de ação: usa o token ${submitLink} (resolvido pela plataforma).
-             target=_blank abre em novo separador/janela (equivalente sem-JS ao popup;
-             popup dimensionado exigiria window.open/JS, removido pelo Attack Simulator). -->
-        <a class="cta" role="button" href="${submitLink}" rel="noopener" target="_blank">
+        <!-- Abre o popup CSS (sem JS). Para abrir noutra aba, troque por um <a target="_blank">. -->
+        <label for="openModal" class="cta">
           <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
           Continuar para a Microsoft
-        </a>
+        </label>
         <p class="secure">🔒 Protegido pela Microsoft</p>
       </div>
     </div>
   </div>
 
   <footer>© 2026 Microsoft Corporation. Todos os direitos reservados.</footer>
+
+  <!-- Popup/modal: janela de submissão do código (estilo devicelogin) -->
+  <div class="modal-overlay">
+    <div class="modal-card">
+      <label for="closeModal" class="modal-close" aria-label="Fechar">✕</label>
+      <span class="modal-logo"><span class="ms"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span> Microsoft</span>
+      <h2>Introduza o código</h2>
+      <p class="lead">Introduza o código apresentado na sua aplicação ou dispositivo.</p>
+      <input class="otc" type="text" autocomplete="off" placeholder="Código" aria-label="Código" value="AN62-83B9">
+      <p class="modal-hint">Está a ter problemas? Obtenha ajuda para iniciar sessão.</p>
+      <div class="modal-row">
+        <!-- Submissão: token ${submitLink} (resolvido pela plataforma; regista a interação). -->
+        <a class="modal-submit" role="button" href="${submitLink}" rel="noopener" target="_self">Seguir</a>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
