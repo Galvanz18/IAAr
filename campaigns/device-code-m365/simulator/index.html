@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador — Device Code Phishing (treino)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --ink:#e8eaed; --muted:#9aa0ab; --accent:#4c9aff; --red:#ff6b6b;
+    --green:#4ade80; --amber:#fbbf24; --radius:12px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{--bg:#f4f5f7;--panel:#fff;--panel2:#f0f2f5;--line:#e3e6ea;
+          --ink:#1a1d23;--muted:#5b6370;--accent:#0067b8;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:'Segoe UI',system-ui,Arial,sans-serif;line-height:1.5;}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px;}
+  header{margin-bottom:8px;}
+  h1{font-size:22px;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 4px;}
+  .banner{background:rgba(251,191,36,.14);border:1px solid var(--amber);
+          color:var(--ink);border-radius:8px;padding:10px 14px;font-size:13px;margin:12px 0 20px;}
+  .banner b{color:var(--amber);}
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:720px){.stage{grid-template-columns:1fr;}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+         padding:16px;min-height:280px;display:flex;flex-direction:column;}
+  .panel h2{font-size:14px;margin:0 0 12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .dot{width:9px;height:9px;border-radius:50%;}
+  .dot.red{background:var(--red);} .dot.blue{background:var(--accent);}
+  .screen{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+          padding:14px;flex:1;font-size:14px;transition:.3s;}
+  .code{font-family:'Cascadia Code',Consolas,monospace;font-size:13px;white-space:pre-wrap;color:var(--muted);}
+  .bigcode{font-size:28px;font-weight:700;letter-spacing:5px;text-align:center;padding:14px;margin:10px 0;
+           background:var(--bg);border:1px dashed var(--accent);border-radius:8px;}
+  .ms{background:#fff;color:#201f1e;border-radius:8px;padding:16px;}
+  .ms .logo{font-weight:600;color:#5e5e5e;margin-bottom:12px;}
+  .ms input{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;font-size:16px;letter-spacing:3px;text-align:center;}
+  .ms .msbtn{margin-top:12px;background:#0067b8;color:#fff;border:0;padding:9px 18px;border-radius:3px;cursor:pointer;font-size:14px;}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--muted);}
+  .pill.ok{color:var(--green);border-color:var(--green);}
+  .pill.bad{color:var(--red);border-color:var(--red);}
+  .controls{margin:20px 0 10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  button.ctl{background:var(--accent);color:#fff;border:0;padding:10px 18px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;}
+  button.ctl.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);}
+  button.ctl:disabled{opacity:.4;cursor:not-allowed;}
+  .steps{margin-top:6px;}
+  .step{display:flex;gap:12px;padding:10px 12px;border-left:3px solid var(--line);margin-left:4px;opacity:.45;transition:.3s;}
+  .step.active{opacity:1;border-left-color:var(--accent);background:rgba(76,154,255,.07);}
+  .step.done{opacity:.8;border-left-color:var(--green);}
+  .step .n{font-weight:700;color:var(--muted);min-width:20px;}
+  .step.active .n{color:var(--accent);} .step.done .n{color:var(--green);}
+  .step .t{font-size:14px;} .step .t small{display:block;color:var(--muted);font-size:12px;margin-top:2px;}
+  .teach{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;}
+  .teach h3{margin:0 0 8px;font-size:15px;}
+  .teach ul{margin:6px 0 0;padding-left:18px;} .teach li{margin:5px 0;font-size:14px;}
+  .fade{animation:fade .4s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Simulador — Device Code Phishing (M365 / Entra ID)</h1>
+    <p class="sub">Ferramenta didática de conscientização. Avance passo a passo para ver como o ataque funciona.</p>
+  </header>
+
+  <div class="banner">
+    <b>Ambiente de treino.</b> Tudo aqui é simulado. Nenhuma chamada real é feita à
+    Microsoft, nenhum código válido é gerado e nenhum dado é coletado. Os valores
+    são fictícios e servem apenas para ilustrar o fluxo.
+  </div>
+
+  <div class="stage">
+    <!-- ATACANTE -->
+    <div class="panel">
+      <h2><span class="dot red"></span> Dispositivo do atacante</h2>
+      <div class="screen" id="attacker">
+        <p class="code" id="att-text">Aguardando início do fluxo…</p>
+      </div>
+    </div>
+
+    <!-- VÍTIMA -->
+    <div class="panel">
+      <h2><span class="dot blue"></span> Vítima</h2>
+      <div class="screen" id="victim">
+        <p class="code" id="vic-text">Nada recebido ainda.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctl" id="next">Avançar fluxo ▸</button>
+    <button class="ctl ghost" id="reset">Reiniciar</button>
+    <span class="pill" id="status">Passo 0 / 5</span>
+  </div>
+
+  <div class="steps" id="steps">
+    <div class="step" data-i="1"><span class="n">1</span><span class="t">Atacante inicia o fluxo device code
+      <small>Pede um código ao provedor fingindo ser um dispositivo sem navegador.</small></span></div>
+    <div class="step" data-i="2"><span class="n">2</span><span class="t">Provedor devolve o código de usuário
+      <small>Ex.: ABCD-EFGH + a URL microsoft.com/devicelogin.</small></span></div>
+    <div class="step" data-i="3"><span class="n">3</span><span class="t">Atacante envia a isca à vítima
+      <small>"Digite este código para liberar seu acesso."</small></span></div>
+    <div class="step" data-i="4"><span class="n">4</span><span class="t">Vítima digita o código na página real e autentica
+      <small>Login verdadeiro + MFA — e, sem saber, autoriza o dispositivo do atacante.</small></span></div>
+    <div class="step" data-i="5"><span class="n">5</span><span class="t">Atacante recebe os tokens
+      <small>Acesso e refresh token: sessão persistente na conta da vítima.</small></span></div>
+  </div>
+
+  <div class="teach" id="teach" style="display:none">
+    <h3>🚩 Onde a vítima deveria ter parado</h3>
+    <ul>
+      <li>Recebeu um código <b>sem ter iniciado nenhum login</b> por conta própria.</li>
+      <li>A mensagem trazia <b>urgência</b> ("libere seu acesso agora").</li>
+      <li>Pedia para <b>digitar o código</b> em microsoft.com/devicelogin a partir de um link/e-mail.</li>
+    </ul>
+    <p style="margin:12px 0 0;font-size:14px;"><b>Regra de ouro:</b> um login iniciado por
+    você nunca chega pronto na sua caixa de entrada. Nunca digite em
+    <code>microsoft.com/devicelogin</code> um código recebido de alguém.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var FAKE = "WDJB-MJHT"; // código fictício de exibição
+  var step = 0, MAX = 5;
+  var att = document.getElementById('att-text');
+  var vic = document.getElementById('victim');
+  var attBox = document.getElementById('attacker');
+  var status = document.getElementById('status');
+  var nextBtn = document.getElementById('next');
+  var teach = document.getElementById('teach');
+
+  function mark(){
+    document.querySelectorAll('.step').forEach(function(el){
+      var i = +el.dataset.i;
+      el.classList.toggle('active', i === step);
+      el.classList.toggle('done', i < step);
+    });
+    status.textContent = 'Passo ' + step + ' / ' + MAX;
+    nextBtn.disabled = step >= MAX;
+    if(step >= MAX){ nextBtn.textContent = 'Fluxo concluído'; teach.style.display='block'; teach.classList.add('fade'); }
+  }
+
+  function render(){
+    switch(step){
+      case 1:
+        att.innerHTML = 'POST /common/oauth2/v2.0/devicecode\n' +
+          '  client_id=&lt;app público&gt;\n  scope=&lt;escopos&gt;\n\n→ enviando requisição…';
+        break;
+      case 2:
+        attBox.innerHTML = '<p class="code">Resposta do provedor:</p>' +
+          '<div class="bigcode">' + FAKE + '</div>' +
+          '<p class="code">verification_uri: microsoft.com/devicelogin\nexpires_in: 900s</p>';
+        break;
+      case 3:
+        vic.innerHTML = '<div class="fade" style="background:#fff;color:#201f1e;border-radius:8px;padding:12px;font-size:13px;">' +
+          '<b>Microsoft</b><br><br>Detectamos acesso de um novo dispositivo. Para continuar, ' +
+          'digite o código <b>' + FAKE + '</b> em microsoft.com/devicelogin.<br><br>' +
+          '<span style="color:#c50f1f">Seu acesso expira em 15 minutos.</span></div>';
+        break;
+      case 4:
+        vic.innerHTML = '<div class="ms fade"><div class="logo">■ Microsoft</div>' +
+          'Insira o código exibido no seu dispositivo' +
+          '<input value="' + FAKE + '" readonly>' +
+          '<button class="msbtn">Avançar</button>' +
+          '<p style="font-size:12px;color:#605e5c;margin:10px 0 0">Página real da Microsoft — ' +
+          'a vítima autentica e aprova o MFA aqui.</p></div>';
+        break;
+      case 5:
+        attBox.innerHTML = '<p class="code">POST /oauth2/v2.0/token (polling)…</p>' +
+          '<div class="fade" style="margin-top:10px;background:var(--bg);border:1px solid var(--green);border-radius:8px;padding:12px;">' +
+          '<span class="pill bad">access_token ✓</span> <span class="pill bad">refresh_token ✓</span>' +
+          '<p class="code" style="margin:10px 0 0">Conta da vítima comprometida.\nSessão persistente obtida.</p></div>';
+        vic.innerHTML = '<div class="ms"><div class="logo">■ Microsoft</div>' +
+          '<p style="font-size:14px">✓ Você entrou. Pode fechar esta janela.</p>' +
+          '<p style="font-size:12px;color:#605e5c">A vítima acha que tudo está normal.</p></div>';
+        break;
+    }
+    mark();
+  }
+
+  nextBtn.addEventListener('click', function(){ if(step<MAX){ step++; render(); }});
+  document.getElementById('reset').addEventListener('click', function(){
+    step=0; teach.style.display='none';
+    att.textContent='Aguardando início do fluxo…';
+    attBox.innerHTML='<p class="code" id="att-text">Aguardando início do fluxo…</p>';
+    att=document.getElementById('att-text')||att;
+    document.getElementById('victim').innerHTML='<p class="code" id="vic-text">Nada recebido ainda.</p>';
+    vic=document.getElementById('victim');
+    nextBtn.textContent='Avançar fluxo ▸';
+    mark();
+  });
+  mark();
+})();
+</script>
+</body>
+</html>
