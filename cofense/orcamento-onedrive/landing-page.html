@@ -1,0 +1,247 @@
+<!--
+  ============================================================================
+  Cofense PhishMe — Landing Page (simulação de phishing / formação)
+  Cenário: "OneDrive — Verificação de identidade por device code"
+  ----------------------------------------------------------------------------
+  Esta é a página de destino apresentada após o clique no botão do email.
+  Reproduz o lure de "device code authentication".
+
+  NOTA DE FORMAÇÃO: numa simulação Cofense, esta página deve terminar na
+  página educativa da Cofense (teachable moment). Configure o botão/fluxo
+  para redirecionar para a landing de educação da plataforma, ou incorpore
+  aqui o aviso de "isto foi uma simulação".
+
+  TOKENS COFENSE disponíveis em landing pages: !First_Name!, !Last_Name!, !Email!
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documento partilhado no OneDrive</title>
+<style>
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    background-color:#eef1f4;
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    color:#1b1b1b;
+  }
+  .topbar {
+    background:#ffffff;
+    border-bottom:1px solid #e1e4e8;
+    padding:14px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
+    font-weight:600;
+  }
+  .ms-logo {
+    width:20px; height:20px;
+    display:inline-grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:2px;
+  }
+  .ms-logo span { display:block; }
+  .ms-logo span:nth-child(1){ background:#f25022; }
+  .ms-logo span:nth-child(2){ background:#7fba00; }
+  .ms-logo span:nth-child(3){ background:#00a4ef; }
+  .ms-logo span:nth-child(4){ background:#ffb900; }
+
+  .wrap {
+    display:flex;
+    justify-content:center;
+    padding:70px 16px;
+  }
+  .card {
+    width:100%;
+    max-width:420px;
+    background:#ffffff;
+    border:1px solid #e1e4e8;
+    border-radius:8px;
+    padding:26px 30px 34px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .doc-head {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:15px;
+    font-weight:600;
+    padding-bottom:22px;
+  }
+  .doc-head .tri {
+    display:inline-block;
+    width:22px; height:22px;
+    background:#eaf2fb;
+    color:#0364b8;
+    text-align:center;
+    line-height:22px;
+    border-radius:4px;
+    font-size:12px;
+  }
+  .lock {
+    width:48px; height:48px;
+    margin:4px auto 16px;
+    border:2px solid #0364b8;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+  }
+  h1 {
+    font-size:19px;
+    font-weight:500;
+    text-align:center;
+    margin:0 0 10px;
+    color:#444;
+  }
+  .sub {
+    font-size:13.5px;
+    color:#666;
+    text-align:center;
+    line-height:1.5;
+    margin:0 0 22px;
+  }
+  .code-box {
+    background:#111318;
+    border-radius:8px;
+    padding:18px 16px;
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .code-box .label {
+    color:#b8c0cc;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .code-box .code {
+    color:#3b9dff;
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:4px;
+    cursor:pointer;
+    user-select:all;
+  }
+  .code-box .hint {
+    color:#8a93a0;
+    font-size:11px;
+    margin-top:8px;
+  }
+  .steps {
+    border:1px solid #e1e4e8;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:22px;
+  }
+  .steps .row {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13.5px;
+    color:#333;
+    padding:6px 0;
+  }
+  .steps .num {
+    flex:0 0 auto;
+    width:20px; height:20px;
+    background:#0364b8;
+    color:#fff;
+    border-radius:50%;
+    font-size:11px;
+    text-align:center;
+    line-height:20px;
+  }
+  .btn {
+    display:block;
+    width:100%;
+    background:#0067b8;
+    color:#fff;
+    border:none;
+    border-radius:4px;
+    padding:13px;
+    font-size:15px;
+    font-weight:600;
+    text-align:center;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .btn .sq {
+    display:inline-block;
+    width:14px; height:14px;
+    margin-right:8px;
+    vertical-align:-2px;
+    background:
+      linear-gradient(#fff,#fff) 0 0/6px 6px no-repeat,
+      linear-gradient(#fff,#fff) 8px 0/6px 6px no-repeat,
+      linear-gradient(#fff,#fff) 0 8px/6px 6px no-repeat,
+      linear-gradient(#fff,#fff) 8px 8px/6px 6px no-repeat;
+  }
+  .protected {
+    text-align:center;
+    font-size:12px;
+    color:#777;
+    margin-top:14px;
+  }
+  .footer {
+    text-align:center;
+    font-size:12px;
+    color:#9aa0a6;
+    padding:26px 16px 40px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span class="ms-logo"><span></span><span></span><span></span><span></span></span>
+    Documento partilhado no OneDrive
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+
+      <div class="doc-head">
+        <span class="tri">&#9650;</span>
+        Orcamento_2026_Confidencial.docx
+      </div>
+
+      <div class="lock">&#128274;</div>
+
+      <h1>Ver documento partilhado</h1>
+      <p class="sub">
+        Algu&eacute;m partilhou um documento consigo no OneDrive.<br>
+        Verifique a sua identidade com a Microsoft para aceder.
+      </p>
+
+      <div class="code-box">
+        <div class="label">O seu c&oacute;digo de verifica&ccedil;&atilde;o</div>
+        <div class="code" id="code">AN62-83B9</div>
+        <div class="hint">Toque/clique no c&oacute;digo para o selecionar e copiar</div>
+      </div>
+
+      <div class="steps">
+        <div class="row"><span class="num">1</span><span>Copie o c&oacute;digo acima</span></div>
+        <div class="row"><span class="num">2</span><span>Clique em continuar e cole o c&oacute;digo (Ctrl+V)</span></div>
+        <div class="row"><span class="num">3</span><span>Inicie sess&atilde;o na sua conta Microsoft</span></div>
+      </div>
+
+      <a href="#" class="btn" onclick="return false;"><span class="sq"></span>Continuar para a Microsoft</a>
+
+      <div class="protected">&#128274; Protegido pela Microsoft</div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 Microsoft Corporation. Todos os direitos reservados.
+  </div>
+
+</body>
+</html>

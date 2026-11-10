@@ -1,0 +1,125 @@
+<!--
+  ============================================================================
+  Cofense PhishMe — Template de Email (simulação de phishing / formação)
+  Cenário: "OneDrive — Documento confidencial partilhado pelo CEO"
+  Idioma: Português (PT)
+  ----------------------------------------------------------------------------
+  TOKENS DE DADOS COFENSE (substituídos pela plataforma no envio):
+    !First_Name!        -> primeiro nome do destinatário
+    !Last_Name!         -> apelido do destinatário
+    !Email!             -> email do destinatário
+  BOTÃO / LINK DE PHISHING:
+    O href usa o token de URL da Cofense: {{.URL}} (compatível com o editor).
+    Em alternativa, selecione o botão no editor Cofense e aplique o
+    "Phishing Hook" — a plataforma reescreve o link e faz o tracking.
+  CEO_NAME: valor estático fictício (edite conforme o cenário).
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>OneDrive</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f3f4f6; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+
+  <!-- Preheader (texto de pré-visualização, oculto) -->
+  <div style="display:none; font-size:1px; color:#f3f4f6; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+    Um documento confidencial foi partilhado consigo no OneDrive. Confirme a sua identidade para o abrir.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f3f4f6;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+
+        <!-- Cartão principal -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff; border:1px solid #e5e7eb; border-radius:4px;">
+
+          <!-- Cabeçalho OneDrive -->
+          <tr>
+            <td style="padding:20px 28px; border-bottom:1px solid #e5e7eb;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="vertical-align:middle;">
+                    <span style="display:inline-block; width:26px; height:26px; background-color:#0364b8; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:26px; text-align:center; border-radius:3px; font-weight:bold;">&#9650;</span>
+                  </td>
+                  <td style="vertical-align:middle; padding-left:10px; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:18px; font-weight:600; color:#1f2937;">
+                    OneDrive
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Corpo -->
+          <tr>
+            <td style="padding:28px;">
+
+              <p style="margin:0 0 20px 0; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:15px; color:#374151;">
+                Olá !First_Name!,
+              </p>
+
+              <!-- Cartão do documento -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e5e7eb; border-radius:4px; margin-bottom:22px;">
+                <tr>
+                  <td style="padding:16px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td width="40" style="vertical-align:middle;">
+                          <span style="display:inline-block; width:36px; height:36px; background-color:#185abd; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:36px; text-align:center; border-radius:3px; font-weight:bold;">W</span>
+                        </td>
+                        <td style="vertical-align:middle; padding-left:14px; font-family:Segoe UI,Arial,Helvetica,sans-serif;">
+                          <div style="font-size:15px; font-weight:600; color:#1f2937;">Orcamento_2026_Confidencial.docx</div>
+                          <div style="font-size:13px; color:#6b7280; padding-top:2px;">Partilhado por Jo&atilde;o Silva &middot; Diretor-Geral</div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 22px 0; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:15px; line-height:1.5; color:#374151;">
+                <strong style="color:#1f2937;">Jo&atilde;o Silva</strong> partilhou um documento consigo e pediu a sua revis&atilde;o com urg&ecirc;ncia, ainda hoje. O ficheiro &eacute; confidencial, por isso &eacute; necess&aacute;rio confirmar a sua identidade para o abrir.
+              </p>
+
+              <!-- Botão -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:22px;">
+                <tr>
+                  <td style="border-radius:3px; background-color:#0364b8;">
+                    <a href="{{.URL}}" target="_blank" style="display:inline-block; padding:12px 28px; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:15px; font-weight:600; color:#ffffff; text-decoration:none; border-radius:3px;">
+                      Abrir documento
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:13px; color:#6b7280;">
+                Este link &eacute; pessoal e expira em 24 horas. N&atilde;o o reencaminhe.
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Rodapé -->
+          <tr>
+            <td style="padding:18px 28px; border-top:1px solid #e5e7eb;">
+              <p style="margin:0 0 4px 0; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:12px; color:#9ca3af;">
+                Esta mensagem foi enviada a partir de uma caixa n&atilde;o monitorizada.
+              </p>
+              <p style="margin:0; font-family:Segoe UI,Arial,Helvetica,sans-serif; font-size:12px; color:#9ca3af;">
+                &copy; 2026 Microsoft Corporation &middot; One Microsoft Way, Redmond, WA 98052.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Cartão principal -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
