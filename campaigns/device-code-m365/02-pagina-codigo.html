@@ -66,12 +66,10 @@
           <div><span class="n">3</span> Inicie sessão na sua conta Microsoft</div>
         </div>
 
-        <!-- Em produção: href = URL/token Cofense do PONTO 3.
-             O botão "Copiar" também abre esta mesma URL num popup. -->
-        <a class="cta" id="cta" href="03-pagina-submissao.html">
-          <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
-          Continuar para a Microsoft
-        </a>
+        <!-- PONTO 3: o botão "Submit" usa o token Cofense ${submitLink}.
+             O botão "Copiar código" abre esse mesmo ${submitLink} num popup. -->
+        <a class="cta" id="cta" href="03-pagina-submissao.html" rel="noopener" target="_self">
+          <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span></a><a role="button" style="display: inline-block; margin: 20px; color: white; background: rgb(0, 120, 212); border: 5px solid rgb(0, 120, 212); border-radius: 2px; padding: 5px; font-family: Segoe UI Regular; font-weight: 600; font-size: 14px; text-decoration: none;" href="${submitLink}" rel="noopener" target="_self">Submit</a>
         <p class="secure">🔒 Protegido pela Microsoft</p>
       </div>
     </div>
@@ -85,10 +83,14 @@
       if(navigator.clipboard){ navigator.clipboard.writeText(c).catch(function(){}); }
       this.textContent = 'Código copiado ✓';
 
-      // Abre a página de submissão (PONTO 3) num popup, usando o mesmo destino
-      // do botão "Continuar". A chamada está dentro do clique (gesto do utilizador),
+      // Abre a submissão (PONTO 3) num popup, usando o mesmo ${submitLink} do
+      // botão "Submit". A chamada está dentro do clique (gesto do utilizador),
       // o que evita o bloqueio de popups na maioria dos navegadores.
-      var url = document.getElementById('cta').getAttribute('href');
+      var submit = document.querySelector('a[role="button"]');
+      var url = submit ? submit.getAttribute('href') : '03-pagina-submissao.html';
+      // Em pré-visualização local o token ${submitLink} não é substituído:
+      // nesse caso usa a página local para o popup funcionar na demo.
+      if(!url || url.indexOf('${') !== -1){ url = '03-pagina-submissao.html'; }
       var w = 480, h = 640;
       var left = (screen.width - w) / 2, top = (screen.height - h) / 3;
       var popup = window.open(url, 'devicelogin',
