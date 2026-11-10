@@ -1,9 +1,16 @@
 <!--
-  PONTO 2 — PÁGINA DO CÓDIGO (exibe o código de verificação)
-  Campanha device code / M365 · uso autorizado na Cofense (modo conscientização).
-  O código é ESTÁTICO e fictício (não é um device code real). Nada é coletado aqui.
-  O botão "Continuar" leva ao PONTO 3 (submissão). Em produção, aponte o href para
-  a URL/token da Cofense do passo seguinte.
+  PONTO 2 — PÁGINA DO CÓDIGO (versão SEM JavaScript)
+  Compatível com Microsoft Attack Simulator (remove scripts/JS das páginas) e
+  também com a Cofense. Uso autorizado · modo conscientização.
+
+  Sem JS NÃO é possível:
+    - copiar automaticamente para o clipboard (o utilizador copia manualmente);
+    - abrir popup (usa-se um link com target="_blank", que abre novo separador).
+
+  PHISHING_URL_AQUI  -> insira o link de phishing pela própria ferramenta:
+    · Attack Simulator: use o controlo de link/URL de phishing do editor.
+    · Cofense: substitua pelo token de URL (ex.: ${submitLink}).
+  O código é estático e fictício (não é um device code real). Nada é coletado aqui.
 -->
 <!doctype html>
 <html lang="pt-PT">
@@ -30,10 +37,12 @@
         display:flex;align-items:center;justify-content:center;margin:4px auto 14px;font-size:20px;}
   h1{font-size:18px;margin:0 0 6px;}
   .sub{font-size:13px;color:#605e5c;margin:0 0 18px;line-height:1.5;}
-  .codebox{background:#111418;border-radius:8px;padding:16px;margin:0 0 18px;}
-  .codebox .lbl{color:#9aa0ab;font-size:11px;letter-spacing:1px;margin-bottom:8px;}
-  .codebox .code{color:#4c9aff;font-size:26px;font-weight:700;letter-spacing:6px;margin-bottom:12px;}
-  .copy{background:#0067b8;color:#fff;border:0;border-radius:4px;padding:7px 16px;font-size:13px;cursor:pointer;}
+  .codebox{background:#111418;border-radius:8px;padding:18px 16px;margin:0 0 18px;}
+  .codebox .lbl{color:#9aa0ab;font-size:11px;letter-spacing:1px;margin-bottom:10px;}
+  /* Código grande e fácil de selecionar (cópia manual). user-select force. */
+  .codebox .code{color:#4c9aff;font-size:28px;font-weight:700;letter-spacing:6px;
+     -webkit-user-select:all;user-select:all;cursor:text;}
+  .codebox .tip{color:#6b7280;font-size:11px;margin-top:10px;}
   .steps{background:#f7f9fb;border:1px solid #edebe9;border-radius:8px;padding:12px 14px;text-align:left;margin:0 0 18px;}
   .steps div{display:flex;align-items:center;gap:10px;font-size:13px;color:#323130;padding:5px 0;}
   .steps .n{min-width:20px;height:20px;background:#0067b8;color:#fff;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;}
@@ -56,19 +65,19 @@
 
         <div class="codebox">
           <div class="lbl">O SEU CÓDIGO DE VERIFICAÇÃO</div>
-          <div class="code" id="code">AN62-83B9</div>
-          <button class="copy" id="copy">Copiar código</button>
+          <div class="code">AN62-83B9</div>
+          <div class="tip">Toque/clique no código para o selecionar e copiar</div>
         </div>
 
         <div class="steps">
           <div><span class="n">1</span> Copie o código acima</div>
-          <div><span class="n">2</span> Clique em continuar e cole (Ctrl+V)</div>
+          <div><span class="n">2</span> Clique em continuar e cole o código (Ctrl+V)</div>
           <div><span class="n">3</span> Inicie sessão na sua conta Microsoft</div>
         </div>
 
-        <!-- PONTO 3: ESTE botão (logótipo Windows) submete/valida o código via
-             token Cofense ${submitLink}. O "Copiar código" abre o mesmo num popup. -->
-        <a class="cta" id="cta" href="${submitLink}" rel="noopener" target="_self">
+        <!-- Link normal: abre em novo separador (equivalente sem-JS ao popup).
+             Substitua PHISHING_URL_AQUI pelo link de phishing da sua ferramenta. -->
+        <a class="cta" href="PHISHING_URL_AQUI" target="_blank" rel="noopener">
           <span class="ms" style="filter:brightness(0) invert(1)"><i class="r"></i><i class="g"></i><i class="b"></i><i class="y"></i></span>
           Continuar para a Microsoft
         </a>
@@ -78,68 +87,5 @@
   </div>
 
   <footer>© 2026 Microsoft Corporation. Todos os direitos reservados.</footer>
-
-  <script>
-    // Destino único: o href do botão de topo (#cta = ${submitLink} na Cofense).
-    function targetUrl(){
-      var cta = document.getElementById('cta');
-      var u = cta ? cta.getAttribute('href') : '';
-      // Em pré-visualização local o token ${submitLink} não é substituído:
-      // usa a página local para a demo funcionar.
-      return (!u || u.indexOf('${') !== -1) ? '03-pagina-submissao.html' : u;
-    }
-
-    // Abre a submissão (PONTO 3) num popup. O nome 'devicelogin' faz reutilizar
-    // a mesma janela (não abre duas). Chamado dentro do clique (gesto do
-    // utilizador), o que evita o bloqueio de popups na maioria dos navegadores.
-    function openPopup(){
-      var url = targetUrl();
-      var w = 480, h = 640;
-      var left = (screen.width - w) / 2, top = (screen.height - h) / 3;
-      var popup = window.open(url, 'devicelogin',
-        'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top +
-        ',resizable=yes,scrollbars=yes');
-      if(popup){ popup.focus(); } else { window.location.href = url; } // fallback
-      return popup;
-    }
-
-    // "Continuar para a Microsoft": abre o popup da submissão.
-    document.getElementById('cta').addEventListener('click', function(e){
-      e.preventDefault();
-      openPopup();
-    });
-
-    // "Copiar código": copia o código para o clipboard (sem abrir popup).
-    function copiarTexto(txt){
-      // Caminho moderno (requer contexto seguro: https ou localhost).
-      if(navigator.clipboard && window.isSecureContext){
-        return navigator.clipboard.writeText(txt);
-      }
-      // Fallback para contextos não seguros / navegadores antigos.
-      return new Promise(function(resolve, reject){
-        try{
-          var ta = document.createElement('textarea');
-          ta.value = txt;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.focus(); ta.select();
-          var ok = document.execCommand('copy');
-          document.body.removeChild(ta);
-          ok ? resolve() : reject();
-        }catch(e){ reject(e); }
-      });
-    }
-
-    document.getElementById('copy').addEventListener('click', function(){
-      var btn = this;
-      var c = document.getElementById('code').textContent.trim();
-      copiarTexto(c).then(function(){
-        btn.textContent = 'Código copiado ✓';
-      }).catch(function(){
-        btn.textContent = 'Copie manualmente: ' + c;
-      });
-    });
-  </script>
 </body>
 </html>

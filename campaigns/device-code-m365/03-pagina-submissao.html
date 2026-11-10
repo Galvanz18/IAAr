@@ -1,11 +1,13 @@
 <!--
-  PONTO 3 — PÁGINA DE SUBMISSÃO DO CÓDIGO (simula microsoft.com/devicelogin)
-  Campanha device code / M365 · uso autorizado na Cofense (modo conscientização).
-  IMPORTANTE: esta página NÃO coleta nem envia credenciais/tokens. O envio é inerte;
-  na Cofense, a submissão é apenas registada como "interação" (KPI "digitou o código")
-  e o treino é apresentado pela própria plataforma a seguir.
-  Para registar a interação, aponte {{COFENSE_SUBMIT_URL}} para o endpoint de
-  tracking da campanha (ou deixe o comportamento inerte e use o tracking nativo).
+  PONTO 3 — PÁGINA DE SUBMISSÃO DO CÓDIGO (versão SEM JavaScript)
+  Simula microsoft.com/devicelogin. Compatível com Microsoft Attack Simulator
+  (remove scripts/JS) e Cofense. Uso autorizado · modo conscientização.
+
+  NÃO coleta credenciais/tokens. A captura/registo da interação é feita pela
+  própria plataforma (Attack Simulator / Cofense), que mostra o treino a seguir.
+  O botão "Seguir" aponta para o destino de tracking da ferramenta:
+    SUBMIT_URL_AQUI -> Attack Simulator: URL de credential-harvest/next do editor.
+                       Cofense: token de submissão (ex.: ${submitLink}).
 -->
 <!doctype html>
 <html lang="pt-PT">
@@ -35,7 +37,6 @@
   .row{display:flex;justify-content:flex-end;}
   button{background:#0067b8;color:#fff;border:0;padding:8px 32px;font-size:15px;cursor:pointer;}
   button:hover{background:#005da6;}
-  .msg{display:none;margin-top:20px;font-size:14px;color:#107c10;}
   footer{background:#f2f2f2;color:#666;font-size:12px;text-align:right;padding:10px 24px;}
   footer a{color:#666;text-decoration:none;margin-left:16px;}
 </style>
@@ -50,29 +51,18 @@
       <h1>Introduza o código</h1>
       <p class="lead">Introduza o código apresentado na sua aplicação ou dispositivo.</p>
 
-      <!-- Envio inerte / tracking Cofense. NÃO transmite credenciais. -->
-      <form id="f" action="{{COFENSE_SUBMIT_URL}}" method="post" onsubmit="return handle(event)">
-        <input id="code" name="otc" autocomplete="off" placeholder="Código" aria-label="Código" />
-        <p class="hint">Está a ter problemas? <a href="#">Obtenha ajuda para iniciar sessão</a></p>
+      <!-- Sem JS: o form simplesmente aponta para o destino da plataforma.
+           A plataforma regista a submissão e mostra o treino. Não captura dados aqui. -->
+      <form action="SUBMIT_URL_AQUI" method="get">
+        <input name="otc" autocomplete="off" placeholder="Código" aria-label="Código" />
+        <p class="hint">Está a ter problemas? <a href="SUBMIT_URL_AQUI">Obtenha ajuda para iniciar sessão</a></p>
         <div class="row"><button type="submit">Seguir</button></div>
       </form>
-
-      <p class="msg" id="msg">A verificar o código…</p>
     </div>
   </div>
 
   <footer>
     © 2026 Microsoft <a href="#">Termos de utilização</a> <a href="#">Privacidade e cookies</a>
   </footer>
-
-  <script>
-    // Simulação: não envia nada. A Cofense regista a interação e mostra o treino.
-    function handle(e){
-      e.preventDefault();
-      document.getElementById('msg').style.display = 'block';
-      // Em produção, substitua por: document.getElementById('f').submit();
-      return false;
-    }
-  </script>
 </body>
 </html>
