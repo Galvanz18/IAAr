@@ -55,7 +55,7 @@
   #openModal:checked ~ .modal-overlay{display:block;}
   #closeModal:checked ~ .modal-overlay{display:none !important;}
 
-  .browser-win{width:470px;max-width:calc(100vw - 48px);background:#fff;
+  .browser-win{display:flex;flex-direction:column;width:470px;max-width:calc(100vw - 48px);background:#fff;
     border-radius:8px 8px 6px 6px;overflow:hidden;border:1px solid #9a9a9a;
     box-shadow:0 20px 54px rgba(0,0,0,.55);font-family:'Segoe UI',system-ui,Arial,sans-serif;}
 
@@ -85,6 +85,16 @@
   .omnibox .host{color:#202124;} .omnibox .path{color:#5f6368;}
 
   .browser-body{background:#fff;padding:30px 36px 28px;}
+
+  /* Maximizar / restaurar (CSS puro) */
+  .max .ico-restore{display:none;}
+  #maxWindow:checked ~ .modal-overlay{left:0;right:0;top:0;bottom:0;}
+  #maxWindow:checked ~ .modal-overlay .browser-win{width:100%;max-width:100%;height:100vh;
+    border-radius:0;border:0;box-shadow:none;}
+  #maxWindow:checked ~ .modal-overlay .browser-body{flex:1;}
+  #maxWindow:checked ~ .modal-overlay .max .ico-max{display:none;}
+  #maxWindow:checked ~ .modal-overlay .max .ico-restore{display:inline;}
+
   @media (max-width:540px){
     .modal-overlay{left:10px;right:10px;bottom:10px;}
     .browser-win{width:100%;max-width:100%;}
@@ -143,6 +153,7 @@
   <div class="modal-root">
   <input type="checkbox" id="openModal" aria-hidden="true" tabindex="-1">
   <input type="checkbox" id="closeModal" aria-hidden="true" tabindex="-1">
+  <input type="checkbox" id="maxWindow" aria-hidden="true" tabindex="-1">
   <div class="modal-overlay">
     <div class="browser-win">
       <!-- Moldura de browser Windows (BitB): separador + controlos + endereço real -->
@@ -153,7 +164,7 @@
         </div>
         <div class="winctrls">
           <span class="wc min" title="Minimizar">&#9472;</span>
-          <span class="wc max" title="Maximizar">&#9633;</span>
+          <label for="maxWindow" class="wc max" title="Maximizar / Restaurar" aria-label="Maximizar"><span class="ico-max">&#9633;</span><span class="ico-restore">&#10064;</span></label>
           <label for="closeModal" class="wc close" title="Fechar" aria-label="Fechar">&#10005;</label>
         </div>
       </div>
